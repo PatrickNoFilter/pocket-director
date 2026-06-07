@@ -1,0 +1,11 @@
+# Core
+edge-tts>=6.1.0
+Pillow>=10.0.0
+playwright>=1.40.0
+
+# Cloud encode
+modal>=1.0,<1.4   # Pin to <1.4 on Termux ARM64 — see docs/SETUP.md
+toml>=0.10.2
+
+# YouTube BGM download (optional)
+yt-dlp>=2024.1.0

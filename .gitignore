@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+.pytest_cache/
+
+# Output
+output/
+audio/
+slides/
+recordings/
+*.mp3
+*.mp4
+*.webm
+*.wav
+*.png
+!templates/*.png
+!examples/**/*.png
+
+# Logs
+*.log
+.tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / config
+.env
+.modal.toml
+*.toml
+
+# Editor
+.vscode/
+.idea/
+*.swp

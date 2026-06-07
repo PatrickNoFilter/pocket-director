@@ -22,6 +22,16 @@ echo "============================================================"
 mkdir -p "$WORK"/{audio,slides,recordings,output}
 cd "$WORK"
 
+# Stage 0 — Topic research (optional, skip if notes.md exists)
+TOPIC="${TOPIC:-$(basename "$BASENAME" | tr '-' ' ')}"
+echo ""
+echo "▶ Stage 0/6: Research (optional, skips if notes.md exists)"
+bash "$ROOT/pipeline/00_research.sh" "$TOPIC" "$WORK/notes.md" || {
+    echo ""
+    echo "Pipeline halted at Stage 0. See docs/RESEARCH.md for setup."
+    exit 1
+}
+
 # Stage 1 — TTS
 echo ""
 echo "▶ Stage 1/6: TTS generation"

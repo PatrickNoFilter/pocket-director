@@ -2,11 +2,15 @@
 
 > **Pro animated infographic videos — from your phone, in the cloud, for free.**
 
-A complete pipeline for producing 10-minute documentary-style animated
-infographic videos (think *Vox*, *Polymatter*, *Kurzgesagt* — but finance
+A complete pipeline for producing 10-minute documentary-style
+animated infographic videos (think *Vox*, *Polymatter*, *Kurzgesagt* — but finance
 and Indonesia) — **entirely from a Samsung Galaxy A33 running Termux +
 PRoot Ubuntu**, with all heavy lifting offloaded to **Modal** cloud
 ffmpeg.
+
+Includes a pre-pipeline **research stage** (Stage 0) that integrates
+with [last30days](https://github.com/mvanhorn/last30days-skill) to
+gather facts before you write a single line of narration.
 
 ```
     Phone (Termux + PRoot Ubuntu)                 Modal Cloud
@@ -43,14 +47,17 @@ pip install -r requirements.txt
 # Optional: install Playwright Chromium once
 playwright install chromium
 
-# 1. Write your narration (markdown, one ### SLIDE N per section)
+# 1. Research your topic (Stage 0 — optional, see docs/RESEARCH.md)
+last30days "your topic" --output notes.md
+
+# 2. Write your narration (markdown, one ### SLIDE N per section)
 cp examples/ihsg-danantara/narration.md my-video.md
 nano my-video.md
 
-# 2. Run the full pipeline (~3 min for a 10-min video)
+# 3. Run the full pipeline (~14 min wall-clock for a 10-min video)
 ./pipeline/run_all.sh my-video.md
 
-# 3. Your video lands in /storage/emulated/0/Movies/
+# 4. Your video lands in /storage/emulated/0/Movies/
 ```
 
 ## Setup (one-time)
@@ -75,6 +82,10 @@ modal setup   # follow browser flow, OR export MODAL_TOKEN_ID=... / SECRET=...
 ```
 
 ## The pipeline in detail
+
+### Stage 0 — Research (`last30days`, optional)
+
+Thin shim. Skips if `notes.md` already exists. See [`docs/RESEARCH.md`](docs/RESEARCH.md).
 
 ### Stage 1 — TTS (edge-tts, `id-ID-GadisNeural` or `en-US-AriaNeural`)
 
@@ -140,13 +151,14 @@ For a 16-slide 10-minute video:
 
 | Stage | Where | Time |
 |-------|-------|------|
-| TTS generation | local | 2 min |
-| Slide HTML build | local | 5 sec |
-| Playwright recording | local | 11 min (real-time) |
-| Audio mix | local | 10 sec |
-| Modal encode | cloud | 72 sec |
-| Modal upload/download | cloud | 27 sec |
-| Mux + deploy | local | 2 sec |
+| 0: Research | local/CLI | 2-5 min |
+| 1: TTS generation | local | 2 min |
+| 2: Slide HTML build | local | 5 sec |
+| 3: Playwright recording | local | 11 min (real-time) |
+| 4: Audio mix | local | 10 sec |
+| 5: Modal encode | cloud | 72 sec |
+| 5: Modal upload/download | cloud | 27 sec |
+| 6: Mux + deploy | local | 2 sec |
 | **Total wall-clock** | — | **~14 min** |
 
 ## Known limitations
